@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[Map Sandbox]]></title>
   <link href="http://jamieinfinity.github.io/mapsandbox/atom.xml" rel="self"/>
   <link href="http://jamieinfinity.github.io/mapsandbox/"/>
-  <updated>2013-11-25T00:25:22-06:00</updated>
+  <updated>2013-11-25T01:15:21-06:00</updated>
   <id>http://jamieinfinity.github.io/mapsandbox/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Jamie Williams]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
