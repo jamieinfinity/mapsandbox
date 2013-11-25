@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://jamieinfinity.github.io//github/sitemap.xml 
