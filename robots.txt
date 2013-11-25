@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://jamieinfinity.github.io//github/sitemap.xml 
+Sitemap: http://jamieinfinity.github.io/mapsandbox/sitemap.xml 
