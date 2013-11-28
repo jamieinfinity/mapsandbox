@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Map Sandbox Project]]></title>
-  <link href="http://jamieinfinity.github.io/mapdandbox/atom.xml" rel="self"/>
-  <link href="http://jamieinfinity.github.io/mapdandbox/"/>
-  <updated>2013-11-28T10:47:36-06:00</updated>
-  <id>http://jamieinfinity.github.io/mapdandbox/</id>
+  <link href="http://jamieinfinity.github.io/mapsandbox/atom.xml" rel="self"/>
+  <link href="http://jamieinfinity.github.io/mapsandbox/"/>
+  <updated>2013-11-28T10:58:48-06:00</updated>
+  <id>http://jamieinfinity.github.io/mapsandbox/</id>
   <author>
     <name><![CDATA[Jamie Williams]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Getting Started]]></title>
-    <link href="http://jamieinfinity.github.io/mapdandbox/blog/2013/11/25/getting-started/"/>
+    <link href="http://jamieinfinity.github.io/mapsandbox/blog/2013/11/25/getting-started/"/>
     <updated>2013-11-25T22:38:01-06:00</updated>
-    <id>http://jamieinfinity.github.io/mapdandbox/blog/2013/11/25/getting-started</id>
+    <id>http://jamieinfinity.github.io/mapsandbox/blog/2013/11/25/getting-started</id>
     <content type="html"><![CDATA[<p>LaTeX test:</p>
 
 <script type="math/tex; mode=display">
