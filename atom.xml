@@ -4,7 +4,7 @@
   <title><![CDATA[Map Sandbox Project]]></title>
   <link href="http://jamieinfinity.github.io/mapsandbox/atom.xml" rel="self"/>
   <link href="http://jamieinfinity.github.io/mapsandbox/"/>
-  <updated>2013-11-28T10:58:48-06:00</updated>
+  <updated>2013-11-28T11:05:06-06:00</updated>
   <id>http://jamieinfinity.github.io/mapsandbox/</id>
   <author>
     <name><![CDATA[Jamie Williams]]></name>
@@ -24,6 +24,97 @@
 \begin{align}
  (2 \pi  \sigma ^2)^{-1} e^{\frac{-x^2-y^2}{2 \sigma ^2}}
 \end{align}
+</script>
+
+<p>MapBox test:</p>
+
+<div style="height:420px" id="mbmap" class="mapboxmap"></div>
+
+<script type="text/javascript" src="javascripts/pittsburgh_hot_blocks1.js"></script>
+
+<script type="text/javascript">
+    var map = L.mapbox.map('mbmap', 'jamieinfinity.g7e1c0h2');
+    map.setView(new L.LatLng(40.449037, -79.972229), 12);
+
+    // get color depending on population density value
+    function getColor(d) {
+        return d > 1.5 ? '#660002' :
+                d > 1 ? '#FF2A2E' :
+                d > .75 ? '#e86820' :
+                d > .5 ? '#E89621' :
+                d > .25 ? '#e8c220' :
+                d > .125 ? '#FFFD2B' :
+                d > .06 ? '#51E880' :
+                d > .03 ? '#55b8ff' :
+                '#ADDDFF';
+    }
+
+    function style(feature) {
+        return {
+            weight: 0.,
+            opacity: 1,
+            color: 'gray',
+            fillOpacity: 0.3,
+            fillColor: getColor(feature.properties.crimedensity)
+        };
+    }
+
+    var mapinfo = L.control();
+
+    mapinfo.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'mapinfo');
+        this.update();
+        return this._div;
+    };
+
+    mapinfo.update = function (props) {
+        this._div.innerHTML = '<h4>Incident Density</h4>' + (props ?
+                '<br />' + props.crimedensity + ' incidents / (100 yards)<sup>2</sup>'
+                : 'Hover over a block');
+    };
+
+    mapinfo.addTo(map);
+
+    function highlightFeature(e) {
+        var layer = e.target;
+
+        layer.setStyle({
+            weight: 1,
+            color: '#666',
+            dashArray: '',
+            fillOpacity: 0.7
+        });
+
+        if (!L.Browser.ie && !L.Browser.opera) {
+            layer.bringToFront();
+        }
+
+        mapinfo.update(layer.feature.properties);
+    }
+
+    var geojson;
+
+    function resetHighlight(e) {
+        geojson.resetStyle(e.target);
+        mapinfo.update();
+    }
+
+    function zoomToFeature(e) {
+        map.fitBounds(e.target.getBounds());
+    }
+
+    function onEachFeature(feature, layer) {
+        layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+            click: zoomToFeature
+        });
+    }
+
+    geojson = L.geoJson(crimedata, {style: style, onEachFeature: onEachFeature}).addTo(map);
+
+    map.attributionControl.addAttribution('Original incident data taken from <a href="http://esripress.esri.com/display/index.cfm?fuseaction=display&websiteID=208&moduleID=0//" target="_blank">GIS Tutorial for Crime Analysis</a>; Census blocks from <a href="http://pittsburghpa.gov/dcp/gis/gis-data" target="_blank">City of Pittsburgh</a>; MapBox');
+
 </script>
 
 ]]></content>
