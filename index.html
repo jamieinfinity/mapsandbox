@@ -9,8 +9,8 @@
   <meta name="author" content="Jamie Williams">
 
   
-  <meta name="description" content="LaTeX test: \begin{align} (2 \pi \sigma ^2)^{-1} e^{\frac{-x^2-y^2}{2 \sigma ^2}}
-\end{align} MapBox test: var map = L.mapbox.map('mbmap', ' &hellip;">
+  <meta name="description" content="Background I became interested in crime mapping about a year ago when I was relocating to St. Louis for a new job. At the time, I had developed
+the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -79,7 +79,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/mapsandbox/">Map Sandbox Project</a></h1>
   
-    <h2>A sandbox for designing and implementing choropleth heat maps.</h2>
+    <h2>A sandbox for designing and implementing density maps.</h2>
   
 </hgroup>
 
@@ -113,7 +113,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/mapsandbox/blog/2013/11/25/getting-started/">Getting Started</a></h1>
+      <h1 class="entry-title"><a href="/mapsandbox/blog/2013/12/09/getting-started/">Getting Started</a></h1>
     
     
       <p class="meta">
@@ -129,111 +129,107 @@
   
 
 
-<time datetime="2013-11-25T22:38:01-06:00" pubdate data-updated="true">Nov 25<span>th</span>, 2013</time>
+<time datetime="2013-12-09T00:00:00-06:00" pubdate data-updated="true">Dec 9<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>LaTeX test:</p>
+  <div class="entry-content"><h2 id="background">Background</h2>
 
-<script type="math/tex; mode=display">
-\begin{align}
- (2 \pi  \sigma ^2)^{-1} e^{\frac{-x^2-y^2}{2 \sigma ^2}}
-\end{align}
-</script>
+<p>I became interested in crime mapping about a year ago when I was relocating to St. Louis for a new job. At the time, I had developed
+the impression that crime in St. Louis is a serious problem, and that I should carefully choose which neighborhood to live
+in. I ended up choosing to live in a downtown loft. After living here for nearly a year, I’ve become very fond of this
+city. My interest in crime has shifted from a concern for my personal safety to a concern for how reports of crime statistics
+have lead to a misperception about the livability and vitality of this wonderful city. St. Louis has a vibrant entrepreneur community,
+filled with people who are enthusiastic about the potential of the region to attract tech talent and new business, and so
+naturally this issue of skewing the city’s reputation is a shared concern (for an overview of the situation, see this recent
+<a href="http://blog.rallystl.org/the-truth-about-crime-in-st-louis/" target="_blank">video</a>).</p>
 
-<p>MapBox test:</p>
+<p>As far as I’m concerned, there isn’t really a good (free) resource on the web that succeeds in accurately conveying relative crime
+statistics between municipalities. That is, what I would like to see is a tool that allows the user to choose a neighborhood in one city
+and compare it to a neighborhood in another city, and do this comparison in a statistically meaningful, ‘apples-to-apples’, way. I feel
+crime rates aggregated over an entire city or metro area are not of much value. It’s much more useful to be able to compare areas on
+a human scale of several blocks or so. Being able to compare neighborhoods between cities side-by-side is useful, because it provides a
+relational context to better interpret meaning of the numerical values.</p>
 
-<div style="height:420px" id="mbmap" class="mapboxmap"></div>
+<p>This type of tool does not exist freely on the web or in a mobile app. And so as a software engineer and physicist, I feel I am uniquely
+qualified to do the end-to-end ground work required to build such a thing. For me, it’s critical to be very transparent about how
+the data is being manipulated: ideally this type of tool would allow the user to trace the full computational path if they so desired, to
+find out what assumptions/choices lead to the final visualization.</p>
 
-<script type="text/javascript" src="javascripts/pittsburgh_hot_blocks1.js"></script>
+<p>There are several sites that provide crime maps, the most popular being <a href="https://www.crimereports.com/" target="_blank">CrimeReports</a> and
+<a href="http://spotcrime.com/" target="_blank">SpotCrime</a>, but they typically display the crime incident data as scatter points on a map,
+which doesn’t provide much insight. The key service these sites provide, which is by no means trivial, is that they aggregate the crime data from many different
+city municipalities into a unified interface. Simply showing the raw incident data has the virtue of not introducing any subjective
+biases into the data, which can sometimes happen when building a thematic map (e.g. a heat map, or choropleth map, etc) if one isn’t
+careful.</p>
 
-<script type="text/javascript">
-    var map = L.mapbox.map('mbmap', 'jamieinfinity.g7e1c0h2');
-    map.setView(new L.LatLng(40.449037, -79.972229), 12);
+<p>On the other end of the spectrum, there are several feature-rich GIS systems available capable of advanced geographical data analysis, but these
+have a fairly steep learning curve that makes them more suitable for experts than for the average web or mobile app user. The leader
+in this space (by a long stretch) is the <a href="http://www.arcgis.com/features/" target="_blank">ArcGIS</a> software, but there are
+also some open source tools out there as well, such as <a href="http://www.qgis.org/en/site/" target="_blank">QGIS</a>.</p>
 
-    // get color depending on population density value
-    function getColor(d) {
-        return d > 1.5 ? '#660002' :
-                d > 1 ? '#FF2A2E' :
-                d > .75 ? '#e86820' :
-                d > .5 ? '#E89621' :
-                d > .25 ? '#e8c220' :
-                d > .125 ? '#FFFD2B' :
-                d > .06 ? '#51E880' :
-                d > .03 ? '#55b8ff' :
-                '#ADDDFF';
-    }
+<p>I believe it’s possible to find a balance between these two extremes that provides the user more insight than what can be gleaned by
+simply showing the raw incident data, but at the same time provides a streamlined elegant interface that doesn’t require
+expert-level skill to interpret the information being visualized. The best site I’ve found that comes closest to what I have in
+mind is <a href="http://www.trulia.com/crime/" target="_blank">Trulia</a>,
+however, as of 12/2013, they don’t yet have data for St. Louis.</p>
 
-    function style(feature) {
-        return {
-            weight: 0.,
-            opacity: 1,
-            color: 'gray',
-            fillOpacity: 0.3,
-            fillColor: getColor(feature.properties.crimedensity)
-        };
-    }
+<p>In the next section I’ll sketch an outline of what I hope to build.</p>
 
-    var mapinfo = L.control();
+<h2 id="project-goals">Project goals</h2>
 
-    mapinfo.onAdd = function (map) {
-        this._div = L.DomUtil.create('div', 'mapinfo');
-        this.update();
-        return this._div;
-    };
+<p>I’m doing this project ‘just for fun’, purely as an evening/weekend side-project. Aside from the reasons I outlined above,
+I’m drawn to this project because there is a mix of problems to be solved that engage different parts of my brain: data wrangling/modeling/analytics,
+infographics and UI/UX design, and software engineering.</p>
 
-    mapinfo.update = function (props) {
-        this._div.innerHTML = '<h4>Incident Density</h4>' + (props ?
-                '<br />' + props.crimedensity + ' incidents / (100 yards)<sup>2</sup>'
-                : 'Hover over a block');
-    };
+<p>My long term goal for this project is to build an iOS app for side-by-side comparison of the
+crime density between two different neighborhoods (either within the same city, or between two different cities). In due course, I will write out a set of
+user stories (probably using <a href="https://waffle.io/" target="_blank">waffle.io<a></a>, which is integrated with GitHub issues). However, realistically
+I am still a month or two away from embarking on that.</a></p>
 
-    mapinfo.addTo(map);
+<p>In the short term, this project will be a series of exploratory spikes as I make my way through the fundamentals of
+geographical analytics and figure out how to best achieve the desired features. I have already begun working my way through various articles and
+books – in a later post I’ll summarize these resources.</p>
 
-    function highlightFeature(e) {
-        var layer = e.target;
+<p>Here is a rough sketch of features and related issues that I’ll be exploring:</p>
 
-        layer.setStyle({
-            weight: 1,
-            color: '#666',
-            dashArray: '',
-            fillOpacity: 0.7
-        });
+<ul>
+  <li>obtaining and working with crime incident data: be able to translate between shape files and geojson files. Also understand hierarchy of crime categories.</li>
+  <li>transform between map projections: do computations in planar distance-preserving projection, but then project into whatever projection is appropriate
+for map visualization (typically spheroidal lat/long coordinates).</li>
+  <li>binning of points on a discrete spatial grid: try to minimize subjectivity in the following (i.e. make determinations algorithmically if possible)
+    <ul>
+      <li>choice of grid geometry: square, hexagonal, Voronois, or irregular polygons like census blocks.</li>
+      <li>choice of grid element size (e.g. 100 feet, 300 feet, 1000 feet, etc).</li>
+      <li>be able to project between grids (i.e. the Census Bureau has various indicator data assigned to block polygons, like population, so one needs to be able to
+translate these values onto other grids).</li>
+    </ul>
+  </li>
+  <li>applying Gaussian smoothing to estimate incident density: what is the best choice of smoothing radius?</li>
+  <li>time binning and smoothing: what are good time interval values for binning and for smoothing (moving average)?</li>
+  <li>determine day/night for an incident, given time of day and lat/long.</li>
+  <li>be able to apply spatial clustering algorithms, such as computing the nearest neighbor index and Getis Ord G*. As part of this, understand notion of random distribution as a
+null hypothesis.</li>
+  <li>also be able to cluster based on crime profile similarity metric</li>
+  <li>choice of color scale for visualizing density: probably best choice will be to base on quantiles of density distribution for region(s) of interest</li>
+</ul>
 
-        if (!L.Browser.ie && !L.Browser.opera) {
-            layer.bringToFront();
-        }
+<h2 id="blog-goals">Blog goals</h2>
 
-        mapinfo.update(layer.feature.properties);
-    }
+<p>This blog is primarily for my own personal record keeping: it’s a running account as I figure out how to build this tool. At times my notes may
+have the feel of a tutorial, but anyone happening across this site should keep in mind that I’m learning this material as I go and do not pretend to be
+an expert in crime mapping or geo analytics. On the other hand, sometimes it’s useful to see how someone else was able to make sense of a subject they are
+learning for the first time.</p>
 
-    var geojson;
-
-    function resetHighlight(e) {
-        geojson.resetStyle(e.target);
-        mapinfo.update();
-    }
-
-    function zoomToFeature(e) {
-        map.fitBounds(e.target.getBounds());
-    }
-
-    function onEachFeature(feature, layer) {
-        layer.on({
-            mouseover: highlightFeature,
-            mouseout: resetHighlight,
-            click: zoomToFeature
-        });
-    }
-
-    geojson = L.geoJson(crimedata, {style: style, onEachFeature: onEachFeature}).addTo(map);
-
-    map.attributionControl.addAttribution('Original incident data taken from <a href="http://esripress.esri.com/display/index.cfm?fuseaction=display&websiteID=208&moduleID=0//" target="_blank">GIS Tutorial for Crime Analysis</a>; Census blocks from <a href="http://pittsburghpa.gov/dcp/gis/gis-data" target="_blank">City of Pittsburgh</a>; MapBox');
-
-</script>
+<p>This is also a companion blog accompanying a GitHub repository where I plan to make my code available. Initially I will be tapping into the scientific
+computing platform <a href="http://www.wolfram.com/mathematica/" target="_blank">Mathematica</a> (recently rebranded as
+<a href="http://www.wolfram.com/wolfram-language/" target="_blank">Wolfram Language</a>), which is my go-to tool for these kinds of projects (I worked at Wolfram
+for nearly six years before pivoting my career into mobile app development). Eventually I’ll be transitioning over to coding everything in python, since there are
+so many open-source geo-processing tools available. As a side effect, I think it will be useful to have two distinct implementations to help verify and validate as
+I go along.</p>
 
 </div>
   
@@ -255,7 +251,7 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/mapsandbox/blog/2013/11/25/getting-started/">Getting Started</a>
+        <a href="/mapsandbox/blog/2013/12/09/getting-started/">Getting Started</a>
       </li>
     
   </ul>

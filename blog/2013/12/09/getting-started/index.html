@@ -1,24 +1,139 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Map Sandbox Project]]></title>
-  <link href="http://jamieinfinity.github.io/mapsandbox/atom.xml" rel="self"/>
-  <link href="http://jamieinfinity.github.io/mapsandbox/"/>
-  <updated>2013-12-09T23:31:59-06:00</updated>
-  <id>http://jamieinfinity.github.io/mapsandbox/</id>
-  <author>
-    <name><![CDATA[Jamie Williams]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Getting Started - Map Sandbox Project</title>
+  <meta name="author" content="Jamie Williams">
 
   
-  <entry>
-    <title type="html"><![CDATA[Getting Started]]></title>
-    <link href="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/09/getting-started/"/>
-    <updated>2013-12-09T00:00:00-06:00</updated>
-    <id>http://jamieinfinity.github.io/mapsandbox/blog/2013/12/09/getting-started</id>
-    <content type="html"><![CDATA[<h2 id="background">Background</h2>
+  <meta name="description" content="Background I became interested in crime mapping about a year ago when I was relocating to St. Louis for a new job. At the time, I had developed
+the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/09/getting-started">
+  <link href="/mapsandbox/favicon.png" rel="icon">
+  <link href="/mapsandbox/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Map Sandbox Project" type="application/atom+xml">
+  <script src="/mapsandbox/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/mapsandbox/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      jax: ["input/TeX", "output/HTML-CSS"],
+      tex2jax: {
+        inlineMath: [ ['$', '$'], ["\\(", "\\)"] ],
+        displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+      //,
+      //displayAlign: "left",
+      //displayIndent: "2em"
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
+<script src='//api.tiles.mapbox.com/mapbox.js/v1.5.0/mapbox.js'></script>
+<link href='//api.tiles.mapbox.com/mapbox.js/v1.5.0/mapbox.css' rel='stylesheet'/>
+
+<style>
+    .mapinfo {
+        padding: 6px 8px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: white;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+    }
+
+    .mapinfo h4 {
+        margin: 0 0 5px;
+        color: #777;
+    }
+
+    .mapboxmap {
+        border-width:1px;
+        border-style:solid;
+        border-color:#CCCCCC;
+    }
+
+</style>
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/mapsandbox/">Map Sandbox Project</a></h1>
+  
+    <h2>A sandbox for designing and implementing density maps.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jamieinfinity.github.io/mapsandbox" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/mapsandbox/">Latest</a></li>
+  <li><a href="/mapsandbox/blog/archives">Archives</a></li>
+  <li><a href="https://github.com/jamieinfinity/mapsandbox" target="_blank">Code</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Getting Started</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-09T00:00:00-06:00" pubdate data-updated="true">Dec 9<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2 id="background">Background</h2>
 
 <p>I became interested in crime mapping about a year ago when I was relocating to St. Louis for a new job. At the time, I had developed
 the impression that crime in St. Louis is a serious problem, and that I should carefully choose which neighborhood to live
@@ -113,7 +228,103 @@ for nearly six years before pivoting my career into mobile app development). Eve
 so many open-source geo-processing tools available. As a side effect, I think it will be useful to have two distinct implementations to help verify and validate as
 I go along.</p>
 
-]]></content>
-  </entry>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-</feed>
+
+<span class="byline author vcard">Posted by <span class="fn">Jamie Williams</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-09T00:00:00-06:00" pubdate data-updated="true">Dec 9<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="/mapsandbox//twitter.com/share" class="twitter-share-button" data-url="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/09/getting-started/" data-via="jamieinfinity" data-counturl="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/09/getting-started/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/mapsandbox/blog/2013/12/09/getting-started/">Getting Started</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Follow</h1>
+  <p>blog: <a href="http://apophenalogic.com" target="_blank">apophenalogic.com</a></p>
+  <p>twitter: <a href="http://twitter.com/jamieinfinity" target="_blank">jamieinfinity</a></p>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Jamie Williams -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
