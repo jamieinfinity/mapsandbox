@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Motivation and Goals - Map Sandbox Project</title>
+  <meta name="author" content="Jamie Williams">
+
+  
+  <meta name="description" content="Backdrop I became interested in crime mapping about a year ago when I was relocating to St. Louis for a new job and had done a bit of research &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/09/motivation-and-goals">
+  <link href="/mapsandbox/favicon.png" rel="icon">
+  <link href="/mapsandbox/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Map Sandbox Project" type="application/atom+xml">
+  <script src="/mapsandbox/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/mapsandbox/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      jax: ["input/TeX", "output/HTML-CSS"],
+      tex2jax: {
+        inlineMath: [ ['$', '$'], ["\\(", "\\)"] ],
+        displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+      //,
+      //displayAlign: "left",
+      //displayIndent: "2em"
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
+<script src='//api.tiles.mapbox.com/mapbox.js/v1.5.0/mapbox.js'></script>
+<link href='//api.tiles.mapbox.com/mapbox.js/v1.5.0/mapbox.css' rel='stylesheet'/>
+
+<style>
+    .mapinfo {
+        padding: 6px 8px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: white;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+    }
+
+    .mapinfo h4 {
+        margin: 0 0 5px;
+        color: #777;
+    }
+
+    .mapboxmap {
+        border-width:1px;
+        border-style:solid;
+        border-color:#CCCCCC;
+    }
+
+</style>
+  
+
+
+  <link href="/mapsandbox/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/mapsandbox/">Map Sandbox Project</a></h1>
+  
+    <h2>A sandbox for designing and implementing density maps.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jamieinfinity.github.io/mapsandbox" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+    <li><a href="/mapsandbox/blog/archives">Contents</a></li>
+  <li><a href="/mapsandbox/blog/">Latest</a></li>
+  <li><a href="https://github.com/jamieinfinity/mapsandbox" target="_blank">Code</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Motivation and Goals</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-09T00:00:00-06:00" pubdate data-updated="true">Dec 9<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2 id="backdrop">Backdrop</h2>
+
+<p>I became interested in crime mapping about a year ago when I was relocating to St. Louis for a new job and had done a bit of research
+weighing the pros &amp; cons of different neighborhoods. St. Louis has a reputation of having a higher crime rate than most other cities
+in the U.S., consistently being toward the top of <a href="http://lawstreetmedia.com/blogs/crime/10-dangerous-large/">nation-wide rankings</a>, and this 
+certainly played on my mind at the time. I ended up moving into a downtown loft, which is a fifteen minute walk from where I work. After 
+living here for nearly a year, I’ve grown to love this diverse city and all it has to offer: it has a rapidly growing, supportive 
+<a href="http://vimeo.com/67970720">entrepreneur community</a>, a vibrant tech community with a wide range of active <a href="http://www.meetup.com/find/?keywords=technology&amp;radius=25&amp;userFreeform=Saint+Louis%2C+MO&amp;mcId=z63103&amp;mcName=Saint+Louis%2C+MO&amp;sort=recommended&amp;eventFilter=mysugg">meetup groups</a>, a great selection of <a href="https://www.pinterest.com/athomeinstl/st-louis-foodie-culture/">restaurants</a> and <a href="http://www.yelp.com/search?find_desc=Microbrewery&amp;find_loc=Saint+Louis%2C+MO">microbreweries</a>, 
+the beautiful historic <a href="http://explorestlouis.com/visit-explore/discover/neighborhoods/forest-park/">Forest Park</a> filled with top-notch museums, 
+frequent <a href="http://explorestlouis.com/visit-explore/discover/neighborhoods/">neighborhood festivals</a>, a vital <a href="http://explorestlouis.com/visit-explore/discover/st-louis-sports-fans/">sports culture</a>, and on and on….</p>
+
+<p>St. Louis, then, seems to embody a glaring contradiction: How can such a vibrant city rank as one of the most
+dangerous cities in the U.S. to live? It challenges the natural tendency of popular media to present an overly simplified cut-and-dry narrative that 
+is easy to comprehend. St. Louis residents, both long-time natives and recent transplants, generally feel the predominant national conversation about 
+St. Louis is unfairly dominated by crime statistics, overshadowing all of its other redeeming qualities, which can have a tangible impact on the 
+local economy by deterring
+businesses and individuals from moving here.</p>
+
+<p>There is a recent push by community leaders to try to <a href="http://blog.rallystl.org/the-truth-about-crime-in-st-louis/">change the conversation</a> by focussing on a 
+critical flaw in how the statistics are reported: the numbers calculated for St. Louis are aggregated only at the core city level and exclude the surrounding suburbs
+of the larger metropolitan area, which is in sharp contrast to most other cities where the crime rate is calculated for the entire metropolitan area. 
+City and county officials and community activists are exploring the possibility of an eventual <a href="http://www.ksdk.com/story/news/2013/11/19/st-louis-city-county-merger/3637365/">city-county merger</a>, but in the short term, regional police
+leaders are considering <a href="http://www.stltoday.com/news/local/crime-and-courts/st-louis-area-police-leaders-support-combining-city-and-county/article_567ef964-7bf9-5c34-829a-1c9e7d1dad28.html">formally combining city and county crime reporting</a> when compiling Missouri’s statistics for the FBI, which issues
+the <a href="http://www.fbi.gov/about-us/cjis/ucr/crime-in-the-u.s/2012/preliminary-annual-uniform-crime-report-january-december-2012">annual city crime rankings</a>. 
+Such a merger would have lowered the city’s rank in 2012 from 3rd to 8th.</p>
+
+<p>To some, combining city and county statistics may seem like a statistical slight of hand to improve the overall numbers without actually addressing
+the underlying problems leading to elevated crime. It’s true that such a measure is aimed at the <em>perception</em> of crime, 
+which is only a small part of law enforcement’s overall strategy; they are also <a href="http://host-35.242.54.159.gannett.com/news/crime/article/398680/147/Urban-Crime-Summit-wraps-up-in-St-Louis">actively exploring</a>
+and deploying a variety of measures to lower crime, such as <a href="http://www.ksdk.com/story/news/2013/12/02/sam-dotson-tower-grove-south-hotspot-policing/3813661/">hot spot</a> and <a href="http://www.stlouisco.com/LawandPublicSafety/PoliceDepartment/Services/NeighborhoodPolicing">neighborhood</a> policing and grassroots community initiatives such as 
+<a href="http://sirvstl.org/about-sirv/">SiRV</a> to help reduce the factors that produce a culture of violence in communities.</p>
+
+<h2 id="a-different-approach">A different approach</h2>
+
+<p>My interest in crime mapping is limited to the scope of addressing how crime statistics are calculated and conveyed: I believe that better tools for 
+visualizing and understanding crime rates can be built and made freely available, and that people would benefit from such an effort. </p>
+
+<p>The core problem I’d like to solve is: how can one meaningfully compare crime in one region to crime in some other region? If a national ranking is to be meaningful,
+then parameters used for each city, such as the defined boundary, must be programmatically determined in a way that ensures the resulting statistics are properly normalized across all cities. It shouldn’t be possible for an individual city to alter the way they report crime in order to effect the results of the calculation. The effort in St. Louis
+to combine city and county reporting is an attempt to correct for this lack of normalization, which is a good thing. But it shouldn’t be necessary if the underlying 
+calculation is properly normalized to begin with.</p>
+
+<p>I feel crime rates aggregated over an entire city or metro area are not of much value. It’s much more useful to be able to compare areas on
+a human scale of several blocks within one’s neighborhood. Being able to compare neighborhoods between cities side-by-side is useful, because it provides a
+relational context to better interpret meaning of the numerical values.</p>
+
+<p>So, one of my central goals is to build a tool that allows the user to choose a neighborhood in one city and compare it to a neighborhood 
+in another city, and do this comparison in a statistically meaningful, ‘apples-to-apples’, way so that they could judge for themselves 
+the relative safety of a neighborhood. Such a tool could also be extended to other types of data, such as socioeconomic data and livability metrics, to gain a more 
+holistic profile of a neighborhood.</p>
+
+<p>This type of tool does not exist freely on the web or in a mobile app. And so as a software engineer and physicist, I feel I am uniquely
+qualified to do the end-to-end ground work required to build such a thing. For me, it’s critical to be very transparent about how
+the data is being manipulated: ideally this type of tool would allow the user to trace the full computational path if they so desired, to
+find out what assumptions/choices lead to the final visualization.</p>
+
+<p>There are several sites that provide crime maps on the web: <a href="https://www.crimereports.com/">CrimeReports</a>,
+<a href="https://www.crimemapping.com/">CrimeMapping</a>, <a href="https://www.raidsonline.com/">RAIDS Online</a>, and
+<a href="http://spotcrime.com/">SpotCrime</a>. As far as I can tell, the sole visualization mode offered by these sites is to show
+the crime incident data as scatter points on a map,
+which doesn’t provide much insight. The key service these sites provide, which is by no means trivial, is that they aggregate the crime data from many different
+city municipalities into a unified interface. Simply showing the raw incident data has the virtue of not introducing any subjective
+biases into the data, which can sometimes happen when building a thematic map (e.g. a heat map, or choropleth map, etc) if one isn’t
+careful.</p>
+
+<p>On the other end of the spectrum, there are several feature-rich GIS systems available capable of advanced geographical data analysis, but these
+have a fairly steep learning curve that makes them more suitable for experts than for the average web or mobile app user. The leader
+in this space (by a long stretch) is the <a href="http://www.arcgis.com/features/">ArcGIS</a> software, but there are
+also some open source tools out there as well, such as <a href="http://www.qgis.org/en/site/">QGIS</a>.</p>
+
+<p>I believe it’s possible to find a balance between these two extremes that provides the user more insight than what can be gleaned by
+simply showing the raw incident data, but at the same time provides a streamlined elegant interface that doesn’t require
+expert-level skill to interpret the information being visualized.</p>
+
+<p>There are a handful of innovative sites that have taken
+a step in this direction by offering more informative thematic maps. The real estate site <a href="http://www.trulia.com/crime/">Trulia</a>
+provides a density map of crime aggregated over census blocks (as of Dec. ‘13, they don’t have data for St. Louis). The open government
+site <a href="http://apps.axisphilly.org/crime-change/">AxisPhilly</a> has created an interactive choropleth map showing how
+crime is changing over time in Philadelphia, aggregated by neighborhood, and the independent news site
+<a href="http://www.minnpost.com/crime#city/minneapolis/total">MinnPost</a> provide a similar interactive map showing crime
+statistics broken down by neighborhood.</p>
+
+<p>In the next section I’ll sketch an outline of what I hope to build.</p>
+
+<h2 id="project-goals">Project goals</h2>
+
+<p>I’m doing this project ‘just for fun’, purely as an evening/weekend side-project. Aside from the reasons I outlined above,
+I’m drawn to this project because there is a mix of problems to be solved that engage different parts of my brain: data wrangling/modeling/analytics,
+infographics and UI/UX design, and software engineering.</p>
+
+<p>My long term goal for this project is to build an iOS app for side-by-side comparison of the
+crime density between two different neighborhoods (either within the same city, or between two different cities). In due course, I will write out a set of
+user stories (probably using <a href="https://waffle.io/">waffle.io<a></a>, which is integrated with GitHub issues). However, realistically
+I am still a month or two away from embarking on that.</a></p>
+
+<p>In the short term, this project will be a series of exploratory spikes as I make my way through the fundamentals of
+geographical analytics and figure out how to best achieve the desired features. I have already begun working my way through various articles and
+books – in a later post I’ll summarize these resources.</p>
+
+<p>Here is a rough sketch of features and related issues that I’ll be exploring:</p>
+
+<ul>
+  <li>obtaining and working with crime incident data: be able to translate between shape files and geojson files. Also understand the hierarchy of crime categories.</li>
+  <li>transform between map projections: do computations in a planar distance-preserving projection, but then project into whatever projection is appropriate
+for map visualization (typically spheroidal lat/long coordinates).</li>
+  <li>binning of points on a discrete spatial grid: try to minimize subjectivity in the following (i.e. make determinations algorithmically if possible)
+    <ul>
+      <li>choice of grid geometry: square, hexagonal, Voronois, or irregular polygons like census blocks.</li>
+      <li>choice of grid element size (e.g. 100 feet, 300 feet, 1000 feet, etc).</li>
+      <li>be able to project between grids (i.e. the Census Bureau has various indicator data assigned to block polygons, like population, so one needs to be able to
+translate these values onto other grids).</li>
+    </ul>
+  </li>
+  <li>applying Gaussian smoothing to estimate incident density: what is the best choice of smoothing radius?</li>
+  <li>time binning and smoothing: what are good time interval values for binning and for smoothing (moving average)?</li>
+  <li>determine day/night for an incident, given time of day and lat/long.</li>
+  <li>be able to apply spatial clustering algorithms, such as computing the nearest neighbor index and Getis Ord G*. As part of this, understand the notion of a
+random distribution as a null hypothesis.</li>
+  <li>also be able to cluster based on crime profile similarity metric</li>
+  <li>choice of color scale for visualizing density: probably best choice wi ll be to base on quantiles of density distribution for region(s) of interest</li>
+</ul>
+
+<h2 id="blog-goals">Blog goals</h2>
+
+<p>This blog is primarily for my own personal record keeping: it’s a running account as I figure out how to build this tool. At times my notes may
+have the feel of a tutorial, but anyone happening across this site should keep in mind that I’m learning this material as I go and do not pretend to be
+an expert in crime mapping or geoanalytics. On the other hand, sometimes it’s useful to see how someone else was able to make sense of a subject they are
+learning for the first time.</p>
+
+<p>This is also a companion blog accompanying a GitHub repository where I plan to make my code available. Initially I will be tapping into the scientific
+computing platform <a href="http://www.wolfram.com/mathematica/">Mathematica</a> (recently rebranded as
+<a href="http://www.wolfram.com/wolfram-language/">Wolfram Language</a>), which is my go-to tool for these kinds of projects (I worked at Wolfram
+for nearly six years before pivoting my career into mobile app development). Eventually I’ll be transitioning over to coding everything in python, since there are
+so many open-source geo-processing tools available. As a side effect, I think it will be useful to have two distinct implementations to help verify and validate as
+I go along.</p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Jamie Williams</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-09T00:00:00-06:00" pubdate data-updated="true">Dec 9<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="/mapsandbox//twitter.com/share" class="twitter-share-button" data-url="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/09/motivation-and-goals/" data-via="jamieinfinity" data-counturl="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/09/motivation-and-goals/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/mapsandbox/blog/2013/12/11/resources/" title="Next Post: Resources">Resources &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+    
+      <li class="post">
+        <a href="/mapsandbox/blog/2013/12/11/resources/">Resources</a>
+      </li>
+    
+      <li class="post">
+        <a href="/mapsandbox/blog/2013/12/09/motivation-and-goals/">Motivation and Goals</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Follow</h1>
+  <p>blog: <a href="http://apophenalogic.com" target="_blank">apophenalogic.com</a></p>
+  <p>twitter: <a href="http://twitter.com/jamieinfinity" target="_blank">jamieinfinity</a></p>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Jamie Williams -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
