@@ -4,7 +4,7 @@
   <title><![CDATA[Map Sandbox Project]]></title>
   <link href="http://jamieinfinity.github.io/mapsandbox/atom.xml" rel="self"/>
   <link href="http://jamieinfinity.github.io/mapsandbox/"/>
-  <updated>2013-12-22T18:06:35-06:00</updated>
+  <updated>2013-12-22T18:19:11-06:00</updated>
   <id>http://jamieinfinity.github.io/mapsandbox/</id>
   <author>
     <name><![CDATA[Jamie Williams]]></name>
@@ -97,6 +97,13 @@ map above, this is:</p>
 </pre></td>
 </tr></table>
 </div>
+
+<script type="text/javascript">
+        var map = L.mapbox.map('mbmap', 'jamieinfinity.g7e1c0h2', {
+                    scrollWheelZoom: false
+                  });
+	    map.setView(new L.LatLng(38.632, -90.24), 13);
+</script>
 
 ]]></content>
   </entry>
