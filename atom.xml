@@ -4,7 +4,7 @@
   <title><![CDATA[Map Sandbox Project]]></title>
   <link href="http://jamieinfinity.github.io/mapsandbox/atom.xml" rel="self"/>
   <link href="http://jamieinfinity.github.io/mapsandbox/"/>
-  <updated>2013-12-22T18:19:11-06:00</updated>
+  <updated>2013-12-22T19:01:45-06:00</updated>
   <id>http://jamieinfinity.github.io/mapsandbox/</id>
   <author>
     <name><![CDATA[Jamie Williams]]></name>
@@ -12,6 +12,24 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Working With Crime Incident Points]]></title>
+    <link href="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/15/working-with-crime-incident-points/"/>
+    <updated>2013-12-15T00:00:00-06:00</updated>
+    <id>http://jamieinfinity.github.io/mapsandbox/blog/2013/12/15/working-with-crime-incident-points</id>
+    <content type="html"><![CDATA[<h2 id="what-is-a-reported-crime-incident">What is a reported crime incident?</h2>
+
+<h2 id="crime-category-coding">Crime category coding</h2>
+
+<h2 id="geocoding">Geocoding</h2>
+
+<h2 id="projected-coordinate-systems">Projected coordinate systems</h2>
+
+<h2 id="data-formats">Data formats</h2>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Base Map]]></title>
