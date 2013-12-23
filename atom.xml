@@ -4,7 +4,7 @@
   <title><![CDATA[Map Sandbox Project]]></title>
   <link href="http://jamieinfinity.github.io/mapsandbox/atom.xml" rel="self"/>
   <link href="http://jamieinfinity.github.io/mapsandbox/"/>
-  <updated>2013-12-21T20:47:13-06:00</updated>
+  <updated>2013-12-22T18:06:35-06:00</updated>
   <id>http://jamieinfinity.github.io/mapsandbox/</id>
   <author>
     <name><![CDATA[Jamie Williams]]></name>
@@ -14,11 +14,99 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Base Map]]></title>
+    <link href="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/13/base-map/"/>
+    <updated>2013-12-13T00:00:00-06:00</updated>
+    <id>http://jamieinfinity.github.io/mapsandbox/blog/2013/12/13/base-map</id>
+    <content type="html"><![CDATA[<h2 id="mapbox">Mapbox</h2>
+
+<p>In order to build a thematic map to visualize crime statistics and other neighborhood attributes, we’ll need a
+base map to provide the background context that shows basic geographical information like streets, buildings, parks, and
+waterways. In this project, we’ll tap into the powerful mapping tool <a href="https://www.mapbox.com/">Mapbox</a>. It provides
+tools for styling and deploying maps that are based on <a href="http://www.openstreetmap.org/">OpenStreetMap</a> data,
+with API’s allowing maps to be easily embedded in web pages and mobile apps.</p>
+
+<p>The service operates
+under a freemium model, so you can sign up for free and get started immediately. <a href="https://www.mapbox.com/plans/">Subscription rates</a>
+are primarily based on map views, with the free plan allowing for 3000 views/month. They provide an online map editor
+for very basic features (e.g. choosing the colors of streets, land areas, waterways, etc) and a desktop app call
+<a href="https://www.mapbox.com/tilemill/">Tilemill</a> for advanced map design. So far the online editor has been sufficient for
+my needs, but it’s nice knowing the advanced customization capability is there if I need it.</p>
+
+<h2 id="base-map-design">Base map design</h2>
+
+<p>The base map is meant to provide a geographical context for the thematic data being visualized. The base map styling
+should be done using neutral colors and the features should be somewhat subdued because we’ll be adding colored
+features to this base layer that encode the statistics we’re interested in and we want those features to stand out.</p>
+
+<div class="bogus-wrapper"><notextile><figure>
+<div style="height:360px" id="mbmap" class="mapboxmap"></div>
+<figcaption class="mapcaption">A base map I designed using the Mapbox online editor.</figcaption>
+</figure></notextile></div>
+
+<h2 id="embedding-a-map">Embedding a map</h2>
+
+<p>Mapbox provides a JavaScript library <a href="https://www.mapbox.com/mapbox.js/">mapbox.js</a> that
+is <a href="https://www.mapbox.com/blog/mapbox-js-with-leaflet/">integrated</a> with
+the <a href="http://leafletjs.com/">leaflet.js</a> library for building interactive maps. I’m a JavaScript newbie at the moment,
+so my coding is largely based on finding pre-existing examples to use as a starting point and then adding
+my own tweaks and customizations.</p>
+
+<p>It’s straightforward to embed a map into a web page. First you need to add a reference to the library and the mapbox
+CSS in the <code>&lt;head&gt;</code> element:</p>
+
+<div><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+</pre></td>
+  <td class="code"><pre><span class="tag">&lt;script</span> <span class="attribute-name">src</span>=<span class="string"><span class="delimiter">'</span><span class="content">//api.tiles.mapbox.com/mapbox.js/v1.5.2/mapbox.js</span><span class="delimiter">'</span></span><span class="tag">&gt;</span><span class="tag">&lt;/script&gt;</span>
+<span class="tag">&lt;link</span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">'</span><span class="content">//api.tiles.mapbox.com/mapbox.js/v1.5.2/mapbox.css</span><span class="delimiter">'</span></span> <span class="attribute-name">rel</span>=<span class="string"><span class="delimiter">'</span><span class="content">stylesheet</span><span class="delimiter">'</span></span><span class="tag">/&gt;</span>
+</pre></td>
+</tr></table>
+</div>
+
+<p>Somewhere in your html source, you also need to provide the actual JavaScript code that embeds the map into the
+correct element. The key mapbox function is <code>L.mapbox.map(element_id, map_id, options)</code>, where <code>element_id</code> is the id of the
+html element and <code>map_id</code> is the unique identifier of your base map, e.g.:</p>
+
+<div><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+</pre></td>
+  <td class="code"><pre><span class="tag">&lt;script</span> <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">'</span><span class="content">text/javascript</span><span class="delimiter">'</span></span><span class="tag">&gt;</span>
+<span class="inline">    <span class="keyword">var</span> map = L.mapbox.map(<span class="string"><span class="delimiter">'</span><span class="content">mbmap</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">jamieinfinity.g7e1c0h2</span><span class="delimiter">'</span></span>, {
+                <span class="key">scrollWheelZoom</span>: <span class="predefined-constant">false</span>
+              });
+    map.setView(<span class="keyword">new</span> L.LatLng(<span class="float">38.632</span>, -<span class="float">90.24</span>), <span class="integer">13</span>);</span>
+<span class="tag">&lt;/script&gt;</span>
+</pre></td>
+</tr></table>
+</div>
+
+<p>Finally, wherever you want the map to appear in your content you’ll need to place the <code>&lt;div id='element_id'&gt;</code> tag. For the
+map above, this is:</p>
+
+<div><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+</pre></td>
+  <td class="code"><pre><span class="tag">&lt;div</span> <span class="attribute-name">style</span>=<span class="string"><span class="delimiter">'</span><span class="key">height</span>:<span class="float">360px</span><span class="delimiter">'</span></span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">'</span><span class="content">mbmap</span><span class="delimiter">'</span></span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">'</span><span class="content">mapboxmap</span><span class="delimiter">'</span></span><span class="tag">&gt;</span><span class="tag">&lt;/div&gt;</span>
+</pre></td>
+</tr></table>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Resources]]></title>
     <link href="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/11/resources/"/>
     <updated>2013-12-11T00:00:00-06:00</updated>
     <id>http://jamieinfinity.github.io/mapsandbox/blog/2013/12/11/resources</id>
-    <content type="html"><![CDATA[<p>Over the past few months I’ve been collecting useful resources as I learn about crime mapping and building maps.
+    <content type="html"><![CDATA[<p>Over the past few months I’ve been collecting useful resources as I study crime mapping and learn how to build maps.
 This post contains an updated list of web links, books, and tools.</p>
 
 <h2 id="crime-mapping-references">Crime mapping references</h2>
@@ -97,10 +185,10 @@ on raster data manipulations (as opposed to vector/polygon operations).</p>
 
 <p>For rendering maps, there are some awesome open source tools available. <a href="http://leafletjs.com/"> Leaflet</a>
 is a JavaScript library for building
-interactive maps on the web. It has been integrated into <a href="https://www.mapbox.com/">MapBox</a>,
+interactive maps on the web. It has been integrated into <a href="https://www.mapbox.com/">Mapbox</a>,
 which provides additional features such as building styled base maps that can be hosted on their servers. It integrates
 data from <a href="http://www.openstreetmap.org/#map=5/51.500/-0.100">OpenStreetMap</a> integrated into
-its services. I will be making heavy use of MapBox in my subsequent posts.
+its services. I will be making heavy use of Mapbox in my subsequent posts.
 They even have a mobile app <a href="https://www.mapbox.com/developers/">SDK</a> for iOS and Android, which I may tap into.</p>
 
 <h2 id="crime-data">Crime data</h2>
@@ -290,7 +378,7 @@ licensing or in the lawsuit does Public Engines make any copyright claims on the
 
 <h2 id="administrative-divisions">Administrative divisions</h2>
 
-<p>There are two main types of administrative division that we’re interested in: city neighborhoods and census blocks. In the table below I provide links
+<p>There are two main types of administrative division needed for this project: city neighborhoods and census blocks. In the table below I provide links
 to neighborhood boundaries for several cities:</p>
 
 <table>
@@ -341,7 +429,7 @@ in this <a href="https://www.census.gov/rdo/pdf/AmericanFactFinderPlace_block_qu
       <td><a href="http://www.census.gov/cgi-bin/geo/shapefiles2013/main">http://www.census.gov/cgi-bin/geo/shapefiles2013/main</a></td>
     </tr>
     <tr>
-      <td>Seattle</td>
+      <td>Demographic data</td>
       <td><a href="http://factfinder2.census.gov/">http://factfinder2.census.gov/</a></td>
     </tr>
   </tbody>

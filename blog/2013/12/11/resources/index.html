@@ -9,8 +9,8 @@
   <meta name="author" content="Jamie Williams">
 
   
-  <meta name="description" content="Over the past few months I’ve been collecting useful resources as I learn about crime mapping and building maps.
-This post contains an updated list &hellip;">
+  <meta name="description" content="Over the past few months I’ve been collecting useful resources as I study crime mapping and learn how to build maps.
+This post contains an updated &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -46,8 +46,8 @@ This post contains an updated list &hellip;">
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
 
-<script src='//api.tiles.mapbox.com/mapbox.js/v1.5.0/mapbox.js'></script>
-<link href='//api.tiles.mapbox.com/mapbox.js/v1.5.0/mapbox.css' rel='stylesheet'/>
+<script src='//api.tiles.mapbox.com/mapbox.js/v1.5.2/mapbox.js'></script>
+<link href='//api.tiles.mapbox.com/mapbox.js/v1.5.2/mapbox.css' rel='stylesheet'/>
 
 <style>
     .mapinfo {
@@ -69,6 +69,11 @@ This post contains an updated list &hellip;">
         border-style:solid;
         border-color:#CCCCCC;
     }
+    .mapcaption {
+        color: #666666;
+        font-size: smaller;
+    }
+
 
 </style>
   
@@ -136,7 +141,7 @@ This post contains an updated list &hellip;">
   </header>
 
 
-<div class="entry-content"><p>Over the past few months I’ve been collecting useful resources as I learn about crime mapping and building maps.
+<div class="entry-content"><p>Over the past few months I’ve been collecting useful resources as I study crime mapping and learn how to build maps.
 This post contains an updated list of web links, books, and tools.</p>
 
 <h2 id="crime-mapping-references">Crime mapping references</h2>
@@ -215,10 +220,10 @@ on raster data manipulations (as opposed to vector/polygon operations).</p>
 
 <p>For rendering maps, there are some awesome open source tools available. <a href="http://leafletjs.com/"> Leaflet</a>
 is a JavaScript library for building
-interactive maps on the web. It has been integrated into <a href="https://www.mapbox.com/">MapBox</a>,
+interactive maps on the web. It has been integrated into <a href="https://www.mapbox.com/">Mapbox</a>,
 which provides additional features such as building styled base maps that can be hosted on their servers. It integrates
 data from <a href="http://www.openstreetmap.org/#map=5/51.500/-0.100">OpenStreetMap</a> integrated into
-its services. I will be making heavy use of MapBox in my subsequent posts.
+its services. I will be making heavy use of Mapbox in my subsequent posts.
 They even have a mobile app <a href="https://www.mapbox.com/developers/">SDK</a> for iOS and Android, which I may tap into.</p>
 
 <h2 id="crime-data">Crime data</h2>
@@ -408,7 +413,7 @@ licensing or in the lawsuit does Public Engines make any copyright claims on the
 
 <h2 id="administrative-divisions">Administrative divisions</h2>
 
-<p>There are two main types of administrative division that we’re interested in: city neighborhoods and census blocks. In the table below I provide links
+<p>There are two main types of administrative division needed for this project: city neighborhoods and census blocks. In the table below I provide links
 to neighborhood boundaries for several cities:</p>
 
 <table>
@@ -459,7 +464,7 @@ in this <a href="https://www.census.gov/rdo/pdf/AmericanFactFinderPlace_block_qu
       <td><a href="http://www.census.gov/cgi-bin/geo/shapefiles2013/main">http://www.census.gov/cgi-bin/geo/shapefiles2013/main</a></td>
     </tr>
     <tr>
-      <td>Seattle</td>
+      <td>Demographic data</td>
       <td><a href="http://factfinder2.census.gov/">http://factfinder2.census.gov/</a></td>
     </tr>
   </tbody>
@@ -509,6 +514,8 @@ in this <a href="https://www.census.gov/rdo/pdf/AmericanFactFinderPlace_block_qu
         <a class="basic-alignment left" href="/mapsandbox/blog/2013/12/09/motivation-and-goals/" title="Previous Post: Motivation and Goals">&laquo; Motivation and Goals</a>
       
       
+        <a class="basic-alignment right" href="/mapsandbox/blog/2013/12/13/base-map/" title="Next Post: Base map">Base map &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -521,6 +528,10 @@ in this <a href="https://www.census.gov/rdo/pdf/AmericanFactFinderPlace_block_qu
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
+    
+      <li class="post">
+        <a href="/mapsandbox/blog/2013/12/13/base-map/">Base Map</a>
+      </li>
     
       <li class="post">
         <a href="/mapsandbox/blog/2013/12/11/resources/">Resources</a>
