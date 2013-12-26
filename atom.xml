@@ -4,7 +4,7 @@
   <title><![CDATA[Map Sandbox Project]]></title>
   <link href="http://jamieinfinity.github.io/mapsandbox/atom.xml" rel="self"/>
   <link href="http://jamieinfinity.github.io/mapsandbox/"/>
-  <updated>2013-12-22T19:01:45-06:00</updated>
+  <updated>2013-12-25T20:48:47-06:00</updated>
   <id>http://jamieinfinity.github.io/mapsandbox/</id>
   <author>
     <name><![CDATA[Jamie Williams]]></name>
@@ -14,35 +14,165 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Working With Crime Incident Points]]></title>
-    <link href="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/15/working-with-crime-incident-points/"/>
-    <updated>2013-12-15T00:00:00-06:00</updated>
-    <id>http://jamieinfinity.github.io/mapsandbox/blog/2013/12/15/working-with-crime-incident-points</id>
-    <content type="html"><![CDATA[<h2 id="what-is-a-reported-crime-incident">What is a reported crime incident?</h2>
+    <title type="html"><![CDATA[Mapping Points and Polygons]]></title>
+    <link href="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/21/mapping-points-and-polygons/"/>
+    <updated>2013-12-21T00:00:00-06:00</updated>
+    <id>http://jamieinfinity.github.io/mapsandbox/blog/2013/12/21/mapping-points-and-polygons</id>
+    <content type="html"><![CDATA[<p><em>In this post I give a brief summary of some core mapping concepts and demonstrate how to draw geographical points
+and areas using Mapbox/Leaflet.</em></p>
 
-<h2 id="crime-category-coding">Crime category coding</h2>
+<h2 id="working-with-geolocation-data">Working with geolocation data</h2>
 
-<h2 id="geocoding">Geocoding</h2>
+<p>By now, thanks to the ubiquity of <a href="http://en.wikipedia.org/wiki/Global_Positioning_System">GPS</a> on mobile devices, most people are familiar
+with the concept of assigning a coordinate point to a location
+on the surface of the Earth. This point is given by a pair of spherical angular coordinates (also referred to as geographic coordinates)
+<code>(λ, φ)</code> called longitude and latitude
+in a <a href="http://en.wikipedia.org/wiki/Geographic_coordinate_system">geographic coordinate system</a>. Longitude is the east/west angle from the prime meridian,
+while latitude is the north/south angle from the equator.</p>
 
-<h2 id="projected-coordinate-systems">Projected coordinate systems</h2>
+<h3 id="datums">Datums</h3>
 
-<h2 id="data-formats">Data formats</h2>
+<p>Because the Earth is not a perfect sphere, it is necessary when doing geospatial calculations to take into account the deviations of the
+Earth’s ellipsoidal surface from a spherical surface. Such a model of the Earth’s surface is referred to
+ as a <a href="http://www.maptoaster.com/maptoaster-topo-nz/articles/projection/datum-projection.html">datum</a>. The predominant geographic reference system used for
+this is the World Geodetic System, the latest revision of which is <a href="http://en.wikipedia.org/wiki/World_Geodetic_System">WGS 84</a>. Other datums
+one might encounter are the <a href="http://en.wikipedia.org/wiki/North_American_Datum">NAD 83</a>
+and <a href="http://en.wikipedia.org/wiki/GRS_80">GRS 80</a>. Transforming between these reference models can result in slight
+coordinate shifts (from a few centimeters to a meter).</p>
+
+<h3 id="projections">Projections</h3>
+
+<p>In order to visualize a region of the globe on the flat surface of a map, one must project the region from the ellipsoidal surface
+of the Earth, where a point is specified in spherical coordinates <code>(φ, λ)</code>, to a planar surface, where a point is specified in
+rectangular coordinates <code>(x, y)</code>. Such a <a href="http://en.wikipedia.org/wiki/Map_projection">map projection</a> results in a distortion of one or more of the following properties: distance,
+area, shape, or direction. There are dozens of established projection schemes one can choose from, each optimized to solve a
+particular type of problem. Two of the most common types of projections are (both conformal, angle preserving): <a href="http://en.wikipedia.org/wiki/Mercator_projection">Mercator</a>
+and <a href="http://en.wikipedia.org/wiki/Transverse_Mercator_projection">transverse Mercator</a>.</p>
+
+<h3 id="coordinate-systems">Coordinate systems</h3>
+
+<p>In order to keep track of the various coordinate systems to help simplify transforming between them, a
+<a href="http://spatialreference.org/">repository</a> was created, with unique spatial reference identifiers (<a href="http://en.wikipedia.org/wiki/SRID">SRID</a>)
+assigned to each one. Each coordinate system must specify the projection and associated datum (e.g. WGS 84) upon which it is based. Here are a few
+common coordinate systems:</p>
+
+<ul>
+  <li>
+    <p><a href="http://spatialreference.org/ref/epsg/4326/">EPSG:4326</a> (uses WGS 84 datum): This is the default geometric (spherical angular) coordinate system for the WGS 84 datum. It is sometimes
+referred to as the WGS 84 coordinate system.</p>
+  </li>
+  <li>
+    <p><a href="http://spatialreference.org/ref/sr-org/7483/">EPSG:3857</a> (uses WGS 84 datum): Commonly referred to as the ‘Web Mercator’ system (also known as
+EPSG:900913), this coordinate system is based on a Mercator projection, and is used by many mapping applications (e.g. Google maps, Bing, OpenStreetMaps, Mapbox/Leaflet, etc).
+This specification has a somewhat curious (and confusing) history outlined well in an <a href="http://alastaira.wordpress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection/">article by Alastair Aitchison</a>.
+In practice, when using an API based on this system, one specifies the coordinates in spherical angular coordinates (ESPG:4326), and the service then carries out
+the projection into the EPSG:3857 system for rendering.</p>
+  </li>
+  <li>
+    <p><a href="http://en.wikipedia.org/wiki/State_Plane_Coordinate_System">State Plane Coordinate System (SPCS)</a> (uses NAD 83 datum): This is a <a href="http://www.eye4software.com/resources/stateplane/">collection</a>
+of coordinate systems resulting from
+a local projection (typically either the transverse Mercator or the Lambert conformal conic projection). The St. Louis Metropolitan Police Department use this system to report
+their crime incidents, in particular, they use the <a href="http://spatialreference.org/ref/epsg/26996/">EPSG:26996</a> Missouri-East SPCS. The distances (typically given in units of feet, but sometimes meters) of the coordinates are measured relative
+to an origin unique to that projection lying outside of the state.</p>
+  </li>
+</ul>
+
+<p>Esri has a <a href="http://resources.esri.com/help/9.3/arcgisengine/dotnet/89b720a5-7339-44b0-8b58-0f5bf2843393.htm">concise overview</a> of all of these concepts that I found useful.</p>
+
+<!--
+### Typical workflow
+-->
+
+<h2 id="geojson-data-format">GeoJSON data format</h2>
+
+<p><a href="http://en.wikipedia.org/wiki/GeoJSON">GeoJSON</a> is a commonly used specification for encoding geospatial data using the <a href="http://en.wikipedia.org/wiki/JSON">JSON</a> data format.
+The specification allows for several different types of features, such as a “Point”, a “LineString” and “Polygon”. The GeoJSON spec does not require the points within a polygon to
+be ordered (see this <a href="http://lists.geojson.org/pipermail/geojson-geojson.org/2007-October/000273.html">thread</a>), but many applications that import GeoJSON do require polygon points to be ordered (either clockwise or count-clockwise). The spec also allows each feature to be
+assigned a set of user-defined properties (such as a description or perhaps a numerical value used to assign a color).</p>
+
+<p>As an example, consider the following GeoJSON data describing a point and a polygon:</p>
+
+<div><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+<a href="#n12" name="n12">12</a>
+<a href="#n13" name="n13">13</a>
+<a href="#n14" name="n14">14</a>
+<a href="#n15" name="n15">15</a>
+<a href="#n16" name="n16">16</a>
+<a href="#n17" name="n17">17</a>
+<a href="#n18" name="n18">18</a>
+<a href="#n19" name="n19">19</a>
+<strong><a href="#n20" name="n20">20</a></strong>
+<a href="#n21" name="n21">21</a>
+</pre></td>
+  <td class="code"><pre>{ <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">FeatureCollection</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">features</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Feature</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">geometry</span><span class="delimiter">&quot;</span></span>: {<span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Point</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">coordinates</span><span class="delimiter">&quot;</span></span>: [<span class="float">-90.193378</span>, <span class="float">38.631263</span>]},
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">properties</span><span class="delimiter">&quot;</span></span>: {<span class="key"><span class="delimiter">&quot;</span><span class="content">myProperty</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">val1</span><span class="delimiter">&quot;</span></span>}
+      },
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Feature</span><span class="delimiter">&quot;</span></span>,
+       <span class="key"><span class="delimiter">&quot;</span><span class="content">geometry</span><span class="delimiter">&quot;</span></span>: {
+         <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Polygon</span><span class="delimiter">&quot;</span></span>,
+         <span class="key"><span class="delimiter">&quot;</span><span class="content">coordinates</span><span class="delimiter">&quot;</span></span>: [
+                [ [<span class="float">-90.196158</span>, <span class="float">38.62781</span>], [<span class="float">-90.193031</span>, <span class="float">38.627043</span>],
+                [<span class="float">-90.193368</span>, <span class="float">38.626247</span>], [<span class="float">-90.19641</span>, <span class="float">38.626997</span>] ]
+           ]
+       },
+       <span class="key"><span class="delimiter">&quot;</span><span class="content">properties</span><span class="delimiter">&quot;</span></span>: {
+         <span class="key"><span class="delimiter">&quot;</span><span class="content">myProperty</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">val2</span><span class="delimiter">&quot;</span></span>,
+         <span class="key"><span class="delimiter">&quot;</span><span class="content">anotherProperty</span><span class="delimiter">&quot;</span></span>: <span class="integer">42</span>
+         }
+       }
+     ]
+   }
+</pre></td>
+</tr></table>
+</div>
+
+<h2 id="interactive-maps-with-mapbox">Interactive maps with Mapbox</h2>
+
+<p>The GeoJSON format can be used to encode data for use in Mapbox. The <a href="https://www.mapbox.com/mapbox.js/api/v1.5.2/">Mapbox API</a> for displaying maps is built on the
+<a href="http://leafletjs.com/index.html">Leaflet library</a>. The <a href="https://www.mapbox.com/mapbox.js/example/v1.0.0/">Mapbox examples</a> page shows many different use cases of loading GeoJSON data. Also, checkout
+this <a href="http://leafletjs.com/examples/geojson.html">Leaflet example</a>. Below I show an example where I draw a few features on
+a mpa for St. Louis: a polygon showing the outline of City Garden, and the old and new locations of the tech incubator T-REX.</p>
+
+<div class="bogus-wrapper"><notextile><figure>
+<div style="height:360px" id="mbmap" class="mapboxmap"></div>
+<figcaption class="mapcaption">Example of drawing points and a polygon (<a href="https://github.com/jamieinfinity/mapsandbox/tree/gh-pages/javascripts/posts/mapping-points-and-polygons">JavaScript source code</a>).</figcaption>
+</figure></notextile></div>
+<script type="text/javascript" src="../../../../../javascripts/posts/mapping-points-and-polygons/dataMap1.js"></script>
+
+<script src="../../../../../javascripts/posts/mapping-points-and-polygons/buildMap1.js"></script>
 
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Base Map]]></title>
-    <link href="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/13/base-map/"/>
-    <updated>2013-12-13T00:00:00-06:00</updated>
-    <id>http://jamieinfinity.github.io/mapsandbox/blog/2013/12/13/base-map</id>
-    <content type="html"><![CDATA[<h2 id="mapbox">Mapbox</h2>
+    <link href="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/15/base-map/"/>
+    <updated>2013-12-15T00:00:00-06:00</updated>
+    <id>http://jamieinfinity.github.io/mapsandbox/blog/2013/12/15/base-map</id>
+    <content type="html"><![CDATA[<p><em>A base map is the canvas on which we will draw our geoanalytic visualizations. This post gives a brief summary of
+base map design using Mapbox.</em></p>
+
+<h2 id="mapbox">Mapbox</h2>
 
 <p>In order to build a thematic map to visualize crime statistics and other neighborhood attributes, we’ll need a
 base map to provide the background context that shows basic geographical information like streets, buildings, parks, and
 waterways. In this project, we’ll tap into the powerful mapping tool <a href="https://www.mapbox.com/">Mapbox</a>. It provides
 tools for styling and deploying maps that are based on <a href="http://www.openstreetmap.org/">OpenStreetMap</a> data,
-with API’s allowing maps to be easily embedded in web pages and mobile apps.</p>
+with <a href="https://www.mapbox.com/developers/">API’s</a> allowing maps to be easily embedded in web pages and mobile apps.</p>
 
 <p>The service operates
 under a freemium model, so you can sign up for free and get started immediately. <a href="https://www.mapbox.com/plans/">Subscription rates</a>
@@ -131,8 +261,8 @@ map above, this is:</p>
     <link href="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/11/resources/"/>
     <updated>2013-12-11T00:00:00-06:00</updated>
     <id>http://jamieinfinity.github.io/mapsandbox/blog/2013/12/11/resources</id>
-    <content type="html"><![CDATA[<p>Over the past few months I’ve been collecting useful resources as I study crime mapping and learn how to build maps.
-This post contains an updated list of web links, books, and tools.</p>
+    <content type="html"><![CDATA[<p><em>Over the past few months I’ve been collecting useful resources as I study crime mapping and learn how to build maps.
+This post contains an updated list of web links, books, and tools.</em></p>
 
 <h2 id="crime-mapping-references">Crime mapping references</h2>
 <p>Crime mapping is an active area of research in the broader field of criminology. There are a couple of really
@@ -214,7 +344,12 @@ interactive maps on the web. It has been integrated into <a href="https://www.ma
 which provides additional features such as building styled base maps that can be hosted on their servers. It integrates
 data from <a href="http://www.openstreetmap.org/#map=5/51.500/-0.100">OpenStreetMap</a> integrated into
 its services. I will be making heavy use of Mapbox in my subsequent posts.
-They even have a mobile app <a href="https://www.mapbox.com/developers/">SDK</a> for iOS and Android, which I may tap into.</p>
+They even have a mobile app <a href="https://www.mapbox.com/developers/">SDK</a> for iOS and Android, which I may tap into.
+You can also combine the power of <a href="http://bost.ocks.org/mike/leaflet/">D3.js</a> with Leaflet, which was done to great effect
+in a widget tool called <a href="http://sztanko.github.io/crosslet/">Crosslet</a>.</p>
+
+<p>The domain of GIS and mapping has its own <a href="http://gis.stackexchange.com/">Stack Exchange site</a>, which is a valuable resource for working with any of the
+above tools.</p>
 
 <h2 id="crime-data">Crime data</h2>
 
@@ -470,7 +605,11 @@ in this <a href="https://www.census.gov/rdo/pdf/AmericanFactFinderPlace_block_qu
     <link href="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/09/motivation-and-goals/"/>
     <updated>2013-12-09T00:00:00-06:00</updated>
     <id>http://jamieinfinity.github.io/mapsandbox/blog/2013/12/09/motivation-and-goals</id>
-    <content type="html"><![CDATA[<h2 id="backdrop">Backdrop</h2>
+    <content type="html"><![CDATA[<p><em>This project is an attempt to build a tool for visualizing a side-by-side comparison of neighborhood livability metrics.
+My initial focus is on crime statistics, but what I’m building should be extensible to other kinds of socioeconomic
+attributes. In this post I describe my motivation and goals for the project.</em></p>
+
+<h2 id="backdrop">Backdrop</h2>
 
 <p>I became interested in crime mapping about a year ago when I was relocating to St. Louis for a new job and had done a bit of research
 weighing the pros &amp; cons of different neighborhoods. St. Louis has a reputation of having a higher crime rate than most other cities
@@ -485,8 +624,7 @@ frequent <a href="http://explorestlouis.com/visit-explore/discover/neighborhoods
 dangerous cities in the U.S. to live? It challenges the natural tendency of popular media to present an overly simplified cut-and-dry narrative that 
 is easy to comprehend. St. Louis residents, both long-time natives and recent transplants, generally feel the predominant national conversation about 
 St. Louis is unfairly dominated by crime statistics, overshadowing all of its other redeeming qualities, which can have a tangible impact on the 
-local economy by deterring
-businesses and individuals from moving here.</p>
+local economy by deterring businesses and individuals from moving here.</p>
 
 <p>There is a recent push by community leaders to try to <a href="http://blog.rallystl.org/the-truth-about-crime-in-st-louis/">change the conversation</a> by focussing on a 
 critical flaw in how the statistics are reported: the numbers calculated for St. Louis are aggregated only at the core city level and exclude the surrounding suburbs
@@ -549,7 +687,7 @@ a step in this direction by offering more informative thematic maps. The real es
 provides a density map of crime aggregated over census blocks (as of Dec. ‘13, they don’t have data for St. Louis). The open government
 site <a href="http://apps.axisphilly.org/crime-change/">AxisPhilly</a> has created an interactive choropleth map showing how
 crime is changing over time in Philadelphia, aggregated by neighborhood, and the independent news site
-<a href="http://www.minnpost.com/crime#city/minneapolis/total">MinnPost</a> provide a similar interactive map showing crime
+<a href="http://www.minnpost.com/crime#city/minneapolis/total">MinnPost</a> provides a similar interactive map showing crime
 statistics broken down by neighborhood.</p>
 
 <p>In the next section I’ll sketch an outline of what I hope to build.</p>

@@ -1,0 +1,395 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Mapping Points and Polygons - Map Sandbox Project</title>
+  <meta name="author" content="Jamie Williams">
+
+  
+  <meta name="description" content="In this post I give a brief summary of some core mapping concepts and demonstrate how to draw geographical points
+and areas using Mapbox/Leaflet. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/21/mapping-points-and-polygons">
+  <link href="/mapsandbox/favicon.png" rel="icon">
+  <link href="/mapsandbox/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Map Sandbox Project" type="application/atom+xml">
+  <script src="/mapsandbox/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/mapsandbox/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      jax: ["input/TeX", "output/HTML-CSS"],
+      tex2jax: {
+        inlineMath: [ ['$', '$'], ["\\(", "\\)"] ],
+        displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+      //,
+      //displayAlign: "left",
+      //displayIndent: "2em"
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
+<script src='//api.tiles.mapbox.com/mapbox.js/v1.5.2/mapbox.js'></script>
+<link href='//api.tiles.mapbox.com/mapbox.js/v1.5.2/mapbox.css' rel='stylesheet'/>
+
+<style>
+    .mapinfo {
+        padding: 6px 8px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: white;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+    }
+
+    .mapinfo h4 {
+        margin: 0 0 5px;
+        color: #777;
+    }
+
+    .mapboxmap {
+        border-width:1px;
+        border-style:solid;
+        border-color:#CCCCCC;
+    }
+    .mapcaption {
+        color: #666666;
+        font-size: smaller;
+    }
+
+
+</style>
+  
+
+
+  <link href="/mapsandbox/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/mapsandbox/">Map Sandbox Project</a></h1>
+  
+    <h2>A sandbox for designing and implementing comparative thematic maps.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jamieinfinity.github.io/mapsandbox" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+    <li><a href="/mapsandbox/blog/archives">Contents</a></li>
+  <li><a href="/mapsandbox/blog/">Latest</a></li>
+  <li><a href="https://github.com/jamieinfinity/mapsandbox" target="_blank">Code</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Mapping Points and Polygons</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-21T00:00:00-06:00" pubdate data-updated="true">Dec 21<span>st</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><em>In this post I give a brief summary of some core mapping concepts and demonstrate how to draw geographical points
+and areas using Mapbox/Leaflet.</em></p>
+
+<h2 id="working-with-geolocation-data">Working with geolocation data</h2>
+
+<p>By now, thanks to the ubiquity of <a href="http://en.wikipedia.org/wiki/Global_Positioning_System">GPS</a> on mobile devices, most people are familiar
+with the concept of assigning a coordinate point to a location
+on the surface of the Earth. This point is given by a pair of spherical angular coordinates (also referred to as geographic coordinates)
+<code>(λ, φ)</code> called longitude and latitude
+in a <a href="http://en.wikipedia.org/wiki/Geographic_coordinate_system">geographic coordinate system</a>. Longitude is the east/west angle from the prime meridian,
+while latitude is the north/south angle from the equator.</p>
+
+<h3 id="datums">Datums</h3>
+
+<p>Because the Earth is not a perfect sphere, it is necessary when doing geospatial calculations to take into account the deviations of the
+Earth’s ellipsoidal surface from a spherical surface. Such a model of the Earth’s surface is referred to
+ as a <a href="http://www.maptoaster.com/maptoaster-topo-nz/articles/projection/datum-projection.html">datum</a>. The predominant geographic reference system used for
+this is the World Geodetic System, the latest revision of which is <a href="http://en.wikipedia.org/wiki/World_Geodetic_System">WGS 84</a>. Other datums
+one might encounter are the <a href="http://en.wikipedia.org/wiki/North_American_Datum">NAD 83</a>
+and <a href="http://en.wikipedia.org/wiki/GRS_80">GRS 80</a>. Transforming between these reference models can result in slight
+coordinate shifts (from a few centimeters to a meter).</p>
+
+<h3 id="projections">Projections</h3>
+
+<p>In order to visualize a region of the globe on the flat surface of a map, one must project the region from the ellipsoidal surface
+of the Earth, where a point is specified in spherical coordinates <code>(φ, λ)</code>, to a planar surface, where a point is specified in
+rectangular coordinates <code>(x, y)</code>. Such a <a href="http://en.wikipedia.org/wiki/Map_projection">map projection</a> results in a distortion of one or more of the following properties: distance,
+area, shape, or direction. There are dozens of established projection schemes one can choose from, each optimized to solve a
+particular type of problem. Two of the most common types of projections are (both conformal, angle preserving): <a href="http://en.wikipedia.org/wiki/Mercator_projection">Mercator</a>
+and <a href="http://en.wikipedia.org/wiki/Transverse_Mercator_projection">transverse Mercator</a>.</p>
+
+<h3 id="coordinate-systems">Coordinate systems</h3>
+
+<p>In order to keep track of the various coordinate systems to help simplify transforming between them, a
+<a href="http://spatialreference.org/">repository</a> was created, with unique spatial reference identifiers (<a href="http://en.wikipedia.org/wiki/SRID">SRID</a>)
+assigned to each one. Each coordinate system must specify the projection and associated datum (e.g. WGS 84) upon which it is based. Here are a few
+common coordinate systems:</p>
+
+<ul>
+  <li>
+    <p><a href="http://spatialreference.org/ref/epsg/4326/">EPSG:4326</a> (uses WGS 84 datum): This is the default geometric (spherical angular) coordinate system for the WGS 84 datum. It is sometimes
+referred to as the WGS 84 coordinate system.</p>
+  </li>
+  <li>
+    <p><a href="http://spatialreference.org/ref/sr-org/7483/">EPSG:3857</a> (uses WGS 84 datum): Commonly referred to as the ‘Web Mercator’ system (also known as
+EPSG:900913), this coordinate system is based on a Mercator projection, and is used by many mapping applications (e.g. Google maps, Bing, OpenStreetMaps, Mapbox/Leaflet, etc).
+This specification has a somewhat curious (and confusing) history outlined well in an <a href="http://alastaira.wordpress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection/">article by Alastair Aitchison</a>.
+In practice, when using an API based on this system, one specifies the coordinates in spherical angular coordinates (ESPG:4326), and the service then carries out
+the projection into the EPSG:3857 system for rendering.</p>
+  </li>
+  <li>
+    <p><a href="http://en.wikipedia.org/wiki/State_Plane_Coordinate_System">State Plane Coordinate System (SPCS)</a> (uses NAD 83 datum): This is a <a href="http://www.eye4software.com/resources/stateplane/">collection</a>
+of coordinate systems resulting from
+a local projection (typically either the transverse Mercator or the Lambert conformal conic projection). The St. Louis Metropolitan Police Department use this system to report
+their crime incidents, in particular, they use the <a href="http://spatialreference.org/ref/epsg/26996/">EPSG:26996</a> Missouri-East SPCS. The distances (typically given in units of feet, but sometimes meters) of the coordinates are measured relative
+to an origin unique to that projection lying outside of the state.</p>
+  </li>
+</ul>
+
+<p>Esri has a <a href="http://resources.esri.com/help/9.3/arcgisengine/dotnet/89b720a5-7339-44b0-8b58-0f5bf2843393.htm">concise overview</a> of all of these concepts that I found useful.</p>
+
+<!--
+### Typical workflow
+-->
+
+<h2 id="geojson-data-format">GeoJSON data format</h2>
+
+<p><a href="http://en.wikipedia.org/wiki/GeoJSON">GeoJSON</a> is a commonly used specification for encoding geospatial data using the <a href="http://en.wikipedia.org/wiki/JSON">JSON</a> data format.
+The specification allows for several different types of features, such as a “Point”, a “LineString” and “Polygon”. The GeoJSON spec does not require the points within a polygon to
+be ordered (see this <a href="http://lists.geojson.org/pipermail/geojson-geojson.org/2007-October/000273.html">thread</a>), but many applications that import GeoJSON do require polygon points to be ordered (either clockwise or count-clockwise). The spec also allows each feature to be
+assigned a set of user-defined properties (such as a description or perhaps a numerical value used to assign a color).</p>
+
+<p>As an example, consider the following GeoJSON data describing a point and a polygon:</p>
+
+<div><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+<a href="#n12" name="n12">12</a>
+<a href="#n13" name="n13">13</a>
+<a href="#n14" name="n14">14</a>
+<a href="#n15" name="n15">15</a>
+<a href="#n16" name="n16">16</a>
+<a href="#n17" name="n17">17</a>
+<a href="#n18" name="n18">18</a>
+<a href="#n19" name="n19">19</a>
+<strong><a href="#n20" name="n20">20</a></strong>
+<a href="#n21" name="n21">21</a>
+</pre></td>
+  <td class="code"><pre>{ <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">FeatureCollection</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">features</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Feature</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">geometry</span><span class="delimiter">&quot;</span></span>: {<span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Point</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">coordinates</span><span class="delimiter">&quot;</span></span>: [<span class="float">-90.193378</span>, <span class="float">38.631263</span>]},
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">properties</span><span class="delimiter">&quot;</span></span>: {<span class="key"><span class="delimiter">&quot;</span><span class="content">myProperty</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">val1</span><span class="delimiter">&quot;</span></span>}
+      },
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Feature</span><span class="delimiter">&quot;</span></span>,
+       <span class="key"><span class="delimiter">&quot;</span><span class="content">geometry</span><span class="delimiter">&quot;</span></span>: {
+         <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Polygon</span><span class="delimiter">&quot;</span></span>,
+         <span class="key"><span class="delimiter">&quot;</span><span class="content">coordinates</span><span class="delimiter">&quot;</span></span>: [
+                [ [<span class="float">-90.196158</span>, <span class="float">38.62781</span>], [<span class="float">-90.193031</span>, <span class="float">38.627043</span>],
+                [<span class="float">-90.193368</span>, <span class="float">38.626247</span>], [<span class="float">-90.19641</span>, <span class="float">38.626997</span>] ]
+           ]
+       },
+       <span class="key"><span class="delimiter">&quot;</span><span class="content">properties</span><span class="delimiter">&quot;</span></span>: {
+         <span class="key"><span class="delimiter">&quot;</span><span class="content">myProperty</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">val2</span><span class="delimiter">&quot;</span></span>,
+         <span class="key"><span class="delimiter">&quot;</span><span class="content">anotherProperty</span><span class="delimiter">&quot;</span></span>: <span class="integer">42</span>
+         }
+       }
+     ]
+   }
+</pre></td>
+</tr></table>
+</div>
+
+<h2 id="interactive-maps-with-mapbox">Interactive maps with Mapbox</h2>
+
+<p>The GeoJSON format can be used to encode data for use in Mapbox. The <a href="https://www.mapbox.com/mapbox.js/api/v1.5.2/">Mapbox API</a> for displaying maps is built on the
+<a href="http://leafletjs.com/index.html">Leaflet library</a>. The <a href="https://www.mapbox.com/mapbox.js/example/v1.0.0/">Mapbox examples</a> page shows many different use cases of loading GeoJSON data. Also, checkout
+this <a href="http://leafletjs.com/examples/geojson.html">Leaflet example</a>. Below I show an example where I draw a few features on
+a mpa for St. Louis: a polygon showing the outline of City Garden, and the old and new locations of the tech incubator T-REX.</p>
+
+<div class="bogus-wrapper"><notextile><figure>
+<div style="height:360px" id="mbmap" class="mapboxmap"></div>
+<figcaption class="mapcaption">Example of drawing points and a polygon (<a href="https://github.com/jamieinfinity/mapsandbox/tree/gh-pages/javascripts/posts/mapping-points-and-polygons">JavaScript source code</a>).</figcaption>
+</figure></notextile></div>
+<script type="text/javascript" src="../../../../../javascripts/posts/mapping-points-and-polygons/dataMap1.js"></script>
+
+<script src="../../../../../javascripts/posts/mapping-points-and-polygons/buildMap1.js"></script>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Jamie Williams</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-21T00:00:00-06:00" pubdate data-updated="true">Dec 21<span>st</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="/mapsandbox//twitter.com/share" class="twitter-share-button" data-url="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/21/mapping-points-and-polygons/" data-via="jamieinfinity" data-counturl="http://jamieinfinity.github.io/mapsandbox/blog/2013/12/21/mapping-points-and-polygons/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/mapsandbox/blog/2013/12/15/base-map/" title="Previous Post: Base map">&laquo; Base map</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+    
+      <li class="post">
+        <a href="/mapsandbox/blog/2013/12/21/mapping-points-and-polygons/">Mapping Points and Polygons</a>
+      </li>
+    
+      <li class="post">
+        <a href="/mapsandbox/blog/2013/12/15/base-map/">Base Map</a>
+      </li>
+    
+      <li class="post">
+        <a href="/mapsandbox/blog/2013/12/11/resources/">Resources</a>
+      </li>
+    
+      <li class="post">
+        <a href="/mapsandbox/blog/2013/12/09/motivation-and-goals/">Motivation and Goals</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Follow</h1>
+  <p>blog: <a href="http://apophenalogic.com" target="_blank">apophenalogic.com</a></p>
+  <p>twitter: <a href="http://twitter.com/jamieinfinity" target="_blank">jamieinfinity</a></p>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Jamie Williams -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
