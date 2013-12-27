@@ -1,4 +1,4 @@
-var mapData = { "type": "FeatureCollection",
+{ "type": "FeatureCollection",
     "features": [
         { "type": "Feature",
             "geometry": {"type": "Point", "coordinates": [-90.193253, 38.631289]},
@@ -23,4 +23,4 @@ var mapData = { "type": "FeatureCollection",
             "properties": { "description": "City Garden" }
         }
     ]
-};
+}

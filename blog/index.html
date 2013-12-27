@@ -49,6 +49,10 @@ and areas using Mapbox/Leaflet. &hellip;">
 <script src='//api.tiles.mapbox.com/mapbox.js/v1.5.2/mapbox.js'></script>
 <link href='//api.tiles.mapbox.com/mapbox.js/v1.5.2/mapbox.css' rel='stylesheet'/>
 
+<script type="text/javascript">
+    var BASE_URL = '/mapsandbox';
+</script>
+
 <style>
     .mapinfo {
         padding: 6px 8px;
@@ -271,14 +275,12 @@ assigned a set of user-defined properties (such as a description or perhaps a nu
 <p>The GeoJSON format can be used to encode data for use in Mapbox. The <a href="https://www.mapbox.com/mapbox.js/api/v1.5.2/">Mapbox API</a> for displaying maps is built on the
 <a href="http://leafletjs.com/index.html">Leaflet library</a>. The <a href="https://www.mapbox.com/mapbox.js/example/v1.0.0/">Mapbox examples</a> page shows many different use cases of loading GeoJSON data. Also, checkout
 this <a href="http://leafletjs.com/examples/geojson.html">Leaflet example</a>. Below I show an example where I draw a few features on
-a mpa for St. Louis: a polygon showing the outline of City Garden, and the old and new locations of the tech incubator T-REX.</p>
+a map for St. Louis: a polygon showing the outline of City Garden, and the old and new locations of the tech incubator T-REX.</p>
 
 <div class="bogus-wrapper"><notextile><figure>
 <div style="height:360px" id="mbmap" class="mapboxmap"></div>
 <figcaption class="mapcaption">Example of drawing points and a polygon (<a href="https://github.com/jamieinfinity/mapsandbox/tree/gh-pages/javascripts/posts/mapping-points-and-polygons">JavaScript source code</a>).</figcaption>
 </figure></notextile></div>
-<script type="text/javascript" src="../../../../../javascripts/posts/mapping-points-and-polygons/dataMap1.js"></script>
-
 <script src="../../../../../javascripts/posts/mapping-points-and-polygons/buildMap1.js"></script>
 
 </div>

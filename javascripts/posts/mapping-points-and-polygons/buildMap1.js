@@ -55,17 +55,21 @@ var map = L.mapbox.map('mbmap', 'examples.map-20v6611k', {
 });
 map.setView(new L.LatLng(38.6288, -90.193688), 16);
 
-var geoJson = L.geoJson(mapData, {
-    pointToLayer: function (feature, latlng) {
-        return L.circle(latlng, 20);
-    },
-    style: function (feature) {
-        switch (feature.geometry.type) {
-            case 'Point':
-                return pointStyle(feature);
-            case 'Polygon':
-                return polygonStyle(feature);
-        }
-    },
-    onEachFeature: onEachFeature
-}).addTo(map);
+$.getJSON(BASE_URL + "/javascripts/posts/mapping-points-and-polygons/dataMap1.json", function(data) {
+    var geoJson = L.geoJson(data, {
+        pointToLayer: function (feature, latlng) {
+            return L.circle(latlng, 20);
+        },
+        style: function (feature) {
+            switch (feature.geometry.type) {
+                case 'Point':
+                    return pointStyle(feature);
+                case 'Polygon':
+                    return polygonStyle(feature);
+            }
+        },
+        onEachFeature: onEachFeature
+    }).addTo(map);
+});
+
+
