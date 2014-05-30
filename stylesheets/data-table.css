@@ -16,7 +16,7 @@
 * + table th {
     border-style:solid;
     font-weight:500;
-    background: url("/images/noise.png?1330434582") repeat scroll left top #F7F3F7;
+    background: url("/images/noise.png?1330434582") repeat scroll left top #f6f6f6;
 }
 
 * + table th[align="left"], * + table td[align="left"] {
